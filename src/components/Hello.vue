@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -20,12 +21,15 @@ export default {
       // `googleUser` is the GoogleUser object that represents the just-signed-in user.
       // See https://developers.google.com/identity/sign-in/web/reference#users
       const profile = googleUser.getBasicProfile() // etc etc
-      this.pino.info(profile);
+      const authRes = googleUser.getAuthResponse(true)
+      const accessToken = authRes.access_token
+      this.updateSocialToken(accessToken)
     },
     onSignInError(error) {
       // `error` contains any error occurred.
       console.log('OH NOES', error)
-    }
+    },
+    ...mapMutations(['updateSocialToken'])
   }
 }
 </script>

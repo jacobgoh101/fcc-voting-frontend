@@ -1,5 +1,6 @@
+import user from "./modules/user";
 export default {
-  modules: {},
+  modules: { user },
   state: {
     count: 0
   },
