@@ -1,12 +1,21 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <div class="layout">
+      <Navi/>
+      <router-view></router-view>
+      <div class="footer">
+        Created by Jacob Goh (
+        <a href="mailto:jacobgoh101@gmail.com">jacobgoh101@gmail.com</a>)
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import Navi from './components/sub/Navi'
 export default {
-  name: 'app'
+  name: 'app',
+  components: { Navi }
 }
 </script>
 
