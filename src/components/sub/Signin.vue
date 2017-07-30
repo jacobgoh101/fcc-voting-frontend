@@ -24,7 +24,13 @@ export default {
       const authRes = googleUser.getAuthResponse(true)
       const accessToken = authRes.access_token
       this.updateSocialToken(accessToken)
-      this.pino.info(accessToken)
+      const userInfo = {
+        socialId: profile.Eea,
+        email: profile.U3,
+        name: profile.ig,
+        network: 'google'
+      }
+      this.updateUserInfo(userInfo);
 
       this.axios.post('/auth', {
         network: 'google',
@@ -43,7 +49,7 @@ export default {
       // `error` contains any error occurred.
       console.log('OH NOES', error)
     },
-    ...mapMutations(['updateSocialToken', 'updateServerToken'])
+    ...mapMutations(['updateSocialToken', 'updateServerToken', 'updateUserInfo'])
   }
 }
 </script>
