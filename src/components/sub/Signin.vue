@@ -39,7 +39,6 @@ export default {
         if (res.status == 200) {
           const serverToken = res.data.token;
           this.updateServerToken(serverToken);
-          this.axios.defaults.headers.common['Authorization'] = `JWT ${serverToken}`;
         }
       }).catch(err => {
         this.pino.err(err);

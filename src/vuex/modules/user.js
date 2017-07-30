@@ -19,6 +19,11 @@ export default {
       state.name = info.name;
       state.network = info.network;
       state.socialId = info.socialId;
+    },
+    logout(state) {
+      for (let key in state) {
+        state[key] = "";
+      }
     }
   }
 };
