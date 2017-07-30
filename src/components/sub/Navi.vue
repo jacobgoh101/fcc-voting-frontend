@@ -22,16 +22,6 @@ export default {
         ...mapState(['user']),
         isSignedIn() {
             return !!this.user.email;
-        },
-        serverToken() {
-            return this.user.serverToken;
-        }
-    },
-    watch: {
-        serverToken(serverToken) {
-            // always auto update Authorization header when serverToken changed
-            this.pino.info('serverToken changed');
-            this.axios.defaults.headers.common['Authorization'] = `JWT ${serverToken}`;
         }
     },
     methods: {
@@ -42,11 +32,6 @@ export default {
     },
     components: {
         Signin
-    },
-    mounted() {
-        if (this.serverToken) {
-            this.axios.defaults.headers.common['Authorization'] = `JWT ${this.serverToken}`;
-        }
     }
 }
 </script>

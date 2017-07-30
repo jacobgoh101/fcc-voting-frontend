@@ -1,16 +1,12 @@
 import user from "./modules/user";
+import loadingOverlay from "./modules/loadingOverlay";
 import createPersistedState from 'vuex-persistedstate';
 export default {
   modules : {
-    user
+    user,
+    loadingOverlay
   },
-  state : {
-    count: 0
-  },
-  mutations : {
-    increment(state) {
-      state.count++;
-    }
-  },
+  state : {},
+  mutations : {},
   plugins : [createPersistedState()]
 };

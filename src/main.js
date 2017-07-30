@@ -7,7 +7,7 @@ import App from './App'
 import router from './router'
 import GSignInButton from 'vue-google-signin-button'
 import VuePino from 'vue-pino'
-import axios from 'axios'
+import axios from './plugin/axios'
 import VueAxios from 'vue-axios'
 import VuexStore from './vuex/store';
 import MuseUI from 'muse-ui'
@@ -16,7 +16,6 @@ import 'muse-ui/dist/muse-ui.css'
 Vue.use(Vuex)
 Vue.use(GSignInButton)
 Vue.use(VuePino)
-axios.defaults.baseURL = "http://localhost:3000/api";
 Vue.use(VueAxios, axios)
 Vue.use(MuseUI)
 

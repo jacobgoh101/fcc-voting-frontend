@@ -2,6 +2,7 @@
   <div id="app">
     <div class="layout">
       <Navi/>
+      <loadingOverlay/>
       <router-view></router-view>
       <div class="footer">
         Created by Jacob Goh (
@@ -12,10 +13,30 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Navi from './components/sub/Navi'
+import loadingOverlay from './components/sub/loadingOverlay'
 export default {
   name: 'app',
-  components: { Navi }
+  components: { Navi, loadingOverlay },
+  computed: {
+    ...mapState(['user']),
+    serverToken() {
+      return this.user.serverToken;
+    }
+  },
+  watch: {
+    serverToken(serverToken) {
+      // always auto update Authorization header when serverToken changed
+      this.pino.info('serverToken changed');
+      this.axios.defaults.headers.common['Authorization'] = `JWT ${serverToken}`;
+    }
+  },
+  mounted() {
+    if (this.serverToken) {
+      this.axios.defaults.headers.common['Authorization'] = `JWT ${this.serverToken}`;
+    }
+  }
 }
 </script>
 
