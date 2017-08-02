@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <g-signin-button :params="googleSignInParams" @success="onSignInSuccess" @error="onSignInError">
-      Sign in with Google
-    </g-signin-button>
-  </div>
+  <mu-flat-button color="white" label="Sign in with Google" slot="right" @click="authenticate('google')" class="desktop-only" />
+  <mu-menu-item title="Sign in with Google" @click="authenticate('google')" class="mobile-only" />
 </template>
 
 <script>
@@ -11,12 +8,25 @@ import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
-      googleSignInParams: {
-        client_id: '28065581468-4rbjg22ltb9n6nd183e9mh92rsuqe3j7.apps.googleusercontent.com'
-      }
+
     }
   },
   methods: {
+    authenticate(network) {
+      const hello = this.hello;
+      hello(network).login().then(() => {
+        const authRes = hello(network).getAuthResponse();
+        /*
+          performs operations using the token from authRes
+        */
+        hello(network).api('me').then(function (json) {
+          const profile = json;
+          /*
+            performs operations using the user info from profile
+          */
+        });
+      })
+    },
     onSignInSuccess(googleUser) {
       // `googleUser` is the GoogleUser object that represents the just-signed-in user.
       // See https://developers.google.com/identity/sign-in/web/reference#users
@@ -44,7 +54,7 @@ export default {
           this.updateUserInfo({ userId });
         }
       }).catch(err => {
-        this.pino.err(err);
+        this.pino.error(err);
       })
     },
     onSignInError(error) {
@@ -57,9 +67,17 @@ export default {
 </script>
 
 <style scoped lang=scss>
-.g-signin-button {
-  border: 1px solid #fff;
-  padding: 4px 8px;
-  cursor: pointer;
+@import "node_modules/bourbon/app/assets/stylesheets/_bourbon.scss";
+@import "node_modules/bourbon-neat/app/assets/stylesheets/_neat.scss";
+.desktop-only {
+  @include media(max-width 767px) {
+    display: none;
+  }
+}
+
+.mobile-only {
+  @include media(768px) {
+    display: none;
+  }
 }
 </style>

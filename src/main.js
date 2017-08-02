@@ -5,19 +5,24 @@ import Vuex from 'vuex';
 import {sync} from 'vuex-router-sync';
 import App from './App'
 import router from './router'
-import GSignInButton from 'vue-google-signin-button'
 import VuePino from 'vue-pino'
 import axios from './plugin/axios'
 import VueAxios from 'vue-axios'
 import VuexStore from './vuex/store';
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
+const HelloJs = require('hellojs/dist/hello.all.min.js');
+const VueHello = require('vue-hellojs');
 
 Vue.use(Vuex)
-Vue.use(GSignInButton)
 Vue.use(VuePino)
 Vue.use(VueAxios, axios)
 Vue.use(MuseUI)
+
+HelloJs.init({
+  google: '28065581468-4rbjg22ltb9n6nd183e9mh92rsuqe3j7.apps.googleusercontent.com'
+}, {redirect_uri: 'authcallback/'});
+Vue.use(VueHello, HelloJs);
 
 Vue.config.productionTip = false
 
