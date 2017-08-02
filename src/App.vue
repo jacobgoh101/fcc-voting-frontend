@@ -2,7 +2,8 @@
   <div id="app">
     <div class="layout">
       <Navi/>
-      <loadingOverlay/>
+      <LoadingOverlay/>
+      <Popup/>
       <router-view></router-view>
       <div class="footer">
         Created by Jacob Goh (
@@ -15,10 +16,11 @@
 <script>
 import { mapState } from 'vuex'
 import Navi from './components/sub/Navi'
-import loadingOverlay from './components/sub/loadingOverlay'
+import LoadingOverlay from './components/sub/LoadingOverlay'
+import Popup from './components/sub/Popup'
 export default {
   name: 'app',
-  components: { Navi, loadingOverlay },
+  components: { Navi, LoadingOverlay, Popup },
   computed: {
     ...mapState(['user']),
     serverToken() {

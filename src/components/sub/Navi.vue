@@ -18,11 +18,10 @@
     </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
     data() {
         return {
-
         }
     },
     computed: {
@@ -32,10 +31,11 @@ export default {
         }
     },
     methods: {
+        ...mapMutations(['logout', 'updateSocialToken', 'updateServerToken', 'updateUserInfo']),
+        ...mapActions(['openThenClosePopup']),
         goTo(path) {
             this.$router.push(path);
         },
-        ...mapMutations(['logout', 'updateSocialToken', 'updateServerToken', 'updateUserInfo']),
         async authenticate(network) {
             const hello = this.hello;
             try {
@@ -69,6 +69,7 @@ export default {
                     const userId = res.data.data._id;
                     this.updateUserInfo({ userId });
                 }
+                this.openThenClosePopup({ position: 'top', msg: `Successfully logged in as ${this.user.name}` });
             } catch (err) {
                 this.pino.error(err);
             }
@@ -78,7 +79,7 @@ export default {
     }
 }
 </script>
-<style scoped lang=scss>
+<style  lang=scss>
 @import "node_modules/bourbon/app/assets/stylesheets/_bourbon.scss";
 @import "node_modules/bourbon-neat/app/assets/stylesheets/_neat.scss";
 .desktop-only {
