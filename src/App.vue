@@ -29,7 +29,13 @@ export default {
     serverToken(serverToken) {
       // always auto update Authorization header when serverToken changed
       this.pino.info('serverToken changed');
-      this.axios.defaults.headers.common['Authorization'] = `JWT ${serverToken}`;
+      if (serverToken) {
+        this.axios.defaults.headers.common['Authorization'] = `JWT ${serverToken}`;
+      } else {
+        // redirect to home after logout
+        this.$router.push('/');
+        this.axios.defaults.headers.common['Authorization'] = ``;
+      }
     }
   },
   mounted() {
