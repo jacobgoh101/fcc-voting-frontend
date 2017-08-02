@@ -2,7 +2,6 @@ export default {
   state : {
     bottomPopup: false,
     topPopup: false,
-    topPopupMsg: false,
     leftPopup: false,
     rightPopup: false
   },
@@ -20,7 +19,7 @@ export default {
       commit
     }, obj) {
       if (!obj.timeout) 
-        obj.timeout = 3000;
+        obj.timeout = 2000;
       commit('openPopup', obj);
       setTimeout(() => {
         commit('closePopup', obj);

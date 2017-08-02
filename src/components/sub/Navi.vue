@@ -31,8 +31,8 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['logout', 'updateSocialToken', 'updateServerToken', 'updateUserInfo']),
-        ...mapActions(['openThenClosePopup']),
+        ...mapMutations(['updateSocialToken', 'updateServerToken', 'updateUserInfo']),
+        ...mapActions(['logout', 'openThenClosePopup']),
         goTo(path) {
             this.$router.push(path);
         },

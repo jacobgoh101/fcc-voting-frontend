@@ -28,10 +28,19 @@ export default {
         state.userId = info.userId;
       }
     ,
-    logout(state) {
+    logoutMutation(state) {
       for (let key in state) {
         state[key] = "";
       }
+    }
+  },
+  actions : {
+    logout({commit, dispatch}) {
+      commit('logoutMutation');
+      dispatch('openThenClosePopup', {
+        position: 'top',
+        msg: 'Successfully Logged out'
+      })
     }
   }
 };
