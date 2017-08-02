@@ -3,31 +3,31 @@
     <Breadcrumb />
     <div class="body">
       <mu-content-block>
-        <h1 class="text-center">FCC Voting</h1>
-        <p class="text-center">Below are polls hosted by fcc-voting.</p>
-        <p class="text-center">Select a poll to see the results and vote, or sign-in to make a new poll.</p>
-        <AllPoll />
+        <h1 class="text-center">All My Poll</h1>
+        <AllMyPoll/>
       </mu-content-block>
     </div>
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 import Breadcrumb from './sub/Breadcrumb'
-import AllPoll from './sub/AllPoll'
+import AllMyPoll from './sub/AllMyPoll'
 export default {
   data() {
     return {
-
     }
   },
   methods: {
-
   },
   components: {
-    Breadcrumb, AllPoll
+    Breadcrumb, AllMyPoll
   }
 }
 </script>
 <style scoped lang=scss>
-
+.btn-create-poll {
+  float: right;
+  margin-top: 20px;
+}
 </style>

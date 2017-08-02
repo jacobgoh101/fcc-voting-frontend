@@ -39,6 +39,9 @@ export default {
         if (res.status == 200) {
           const serverToken = res.data.token;
           this.updateServerToken(serverToken);
+
+          const userId = res.data.data._id;
+          this.updateUserInfo({ userId });
         }
       }).catch(err => {
         this.pino.err(err);

@@ -14,6 +14,7 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 import Breadcrumb from './sub/Breadcrumb'
 const cleanArray = require('clean-array')
 const arrayHasDuplicates = require('array-has-duplicates')
@@ -25,9 +26,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['showLoadingOverlay', 'hideLoadingOverlay']),
     createPoll() {
-      let poll_id = "";
       if (!this.validateInput()) return;
+      let poll_id = "";
+      this.showLoadingOverlay();
       this.axios.post('/poll', {
         name: this.name
       }).then(res => {
@@ -46,6 +49,7 @@ export default {
         });
         return Promise.all(promiseArr);
       }).then(pollOptions => {
+        this.hideLoadingOverlay();
         return this.$router.push(`poll/${poll_id}`);
       }).catch(err => console.error(err));
     },
