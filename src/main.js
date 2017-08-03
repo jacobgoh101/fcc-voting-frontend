@@ -13,11 +13,13 @@ import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 const HelloJs = require('hellojs/dist/hello.all.min.js');
 const VueHello = require('vue-hellojs');
+const VueSocialSharing = require('vue-social-sharing');
 
 Vue.use(Vuex)
 Vue.use(VuePino)
 Vue.use(VueAxios, axios)
 Vue.use(MuseUI)
+Vue.use(VueSocialSharing);
 
 HelloJs.init({
   google: '28065581468-4rbjg22ltb9n6nd183e9mh92rsuqe3j7.apps.googleusercontent.com'
