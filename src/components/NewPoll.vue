@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <Breadcrumb />
+    
     <div class="body">
       <mu-content-block>
         <h1 class="text-center">Make a new poll!</h1>
@@ -15,7 +15,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import Breadcrumb from './sub/Breadcrumb'
+
 const cleanArray = require('clean-array')
 const arrayHasDuplicates = require('array-has-duplicates')
 export default {
@@ -76,7 +76,7 @@ export default {
     }
   },
   components: {
-    Breadcrumb,
+    
   }
 }
 </script>

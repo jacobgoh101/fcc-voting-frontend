@@ -81,14 +81,11 @@ export default {
   margin: 0 auto;
 }
 
-.breadcrumb {
-  margin: 10px 0;
-}
-
 .body {
   background-color: white;
   border-radius: 5px;
   min-height: 500px;
+  margin-top: 20px;
 }
 
 .footer {

@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <Breadcrumb />
+    
     <div class="body">
       <mu-content-block>
         <h1 class="text-center">{{apiRes.name}}</h1>
@@ -28,7 +28,7 @@
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex'
-import Breadcrumb from './sub/Breadcrumb'
+
 import DoughnutChart from './sub/DoughnutChart'
 import Sharing from './sub/Sharing'
 const _groupBy = require('lodash/groupBy');
@@ -154,7 +154,7 @@ export default {
     }
   },
   components: {
-    Breadcrumb, DoughnutChart, Sharing
+     DoughnutChart, Sharing
   }
 }
 </script>

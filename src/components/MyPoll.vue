@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <Breadcrumb />
+    
     <div class="body">
       <mu-content-block>
         <h1 class="text-center">All My Poll</h1>
@@ -11,7 +11,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import Breadcrumb from './sub/Breadcrumb'
+
 import AllMyPoll from './sub/AllMyPoll'
 export default {
   data() {
@@ -21,7 +21,7 @@ export default {
   methods: {
   },
   components: {
-    Breadcrumb, AllMyPoll
+     AllMyPoll
   }
 }
 </script>

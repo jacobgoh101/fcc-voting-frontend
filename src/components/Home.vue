@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <Breadcrumb />
+    
     <div class="body">
       <mu-content-block>
         <h1 class="text-center">FCC Voting</h1>
@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import Breadcrumb from './sub/Breadcrumb'
+
 import AllPoll from './sub/AllPoll'
 export default {
   data() {
@@ -24,7 +24,7 @@ export default {
 
   },
   components: {
-    Breadcrumb, AllPoll
+     AllPoll
   }
 }
 </script>

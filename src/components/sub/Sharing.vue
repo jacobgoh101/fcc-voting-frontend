@@ -32,7 +32,7 @@ export default {
     line-height: 34px;
     white-space: nowrap;
     border-radius: 0.2em;
-    font-size: 16px;
+    font-size: 12px;
     color: #FFF;
     margin: 0;
     margin-top: 80px;
