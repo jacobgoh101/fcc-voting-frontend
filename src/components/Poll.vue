@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    
+  
     <div class="body">
       <mu-content-block>
         <h1 class="text-center">{{apiRes.name}}</h1>
@@ -20,6 +20,7 @@
             <div class="text-no-votes" v-if="!hasVotes">
               No votes for this poll yet.
             </div>
+            <mu-raised-button class="btn-delete-poll" label="Delete this poll" secondary @click="deletePoll" v-if="userIsOwner" fullWidth />
           </mu-col>
         </mu-row>
       </mu-content-block>
@@ -27,7 +28,7 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState, mapActions } from 'vuex'
 
 import DoughnutChart from './sub/DoughnutChart'
 import Sharing from './sub/Sharing'
@@ -52,6 +53,9 @@ export default {
       const votes = this.apiRes.votes;
       if (!votes || votes.length === 0) return false;
       return true;
+    },
+    userIsOwner() {
+      return this.apiRes.created_by === this.user.userId;
     },
     userHasVoted() {
       if (this.userVoteIndex === -1) {
@@ -151,10 +155,22 @@ export default {
       } catch (err) {
         this.pino.error(err);
       }
-    }
+    },
+    async deletePoll() {
+      let r = confirm("Delete this poll?");
+      if (!r) return;
+      try {
+        const res = await this.axios.delete(`/poll/${this.poll_id}`);
+        this.openThenClosePopup({ position: 'top', msg: `Poll "${this.apiRes.name}" is successfully deleted.` });
+        this.$router.push('/');
+      } catch (err) {
+        this.pino.error(err);
+      }
+    },
+    ...mapActions(['openThenClosePopup']),
   },
   components: {
-     DoughnutChart, Sharing
+    DoughnutChart, Sharing
   }
 }
 </script>
@@ -163,5 +179,9 @@ export default {
   .col {
     padding: 10px 15px;
   }
+}
+
+.btn-delete-poll {
+  margin-top: 20px;
 }
 </style>
