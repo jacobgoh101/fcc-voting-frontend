@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    
+  
     <div class="body">
       <mu-content-block>
         <h1 class="text-center">Make a new poll!</h1>
@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 
 const cleanArray = require('clean-array')
 const arrayHasDuplicates = require('array-has-duplicates')
@@ -27,16 +27,17 @@ export default {
   },
   methods: {
     ...mapMutations(['showLoadingOverlay', 'hideLoadingOverlay']),
-    createPoll() {
+    ...mapActions(['openThenClosePopup']),
+    async createPoll() {
       if (!this.validateInput()) return;
       let poll_id = "";
       this.showLoadingOverlay();
-      this.axios.post('/poll', {
-        name: this.name
-      }).then(res => {
-        poll_id = res.data._id;
-        return poll_id;
-      }).then(poll_id => {
+
+      try {
+        let res = await this.axios.post('/poll', {
+          name: this.name
+        });
+        let poll_id = res.data._id;
         let options = this.options.split("\n");
         options = cleanArray(options);
         const promiseArr = options.map((option, index) => {
@@ -47,11 +48,13 @@ export default {
             return res.data;
           });
         });
-        return Promise.all(promiseArr);
-      }).then(pollOptions => {
+        await Promise.all(promiseArr);
         this.hideLoadingOverlay();
-        return this.$router.push(`poll/${poll_id}`);
-      }).catch(err => console.error(err));
+        this.$router.push(`poll/${poll_id}`);
+        this.openThenClosePopup({ position: 'top', msg: `Poll "${this.name}" is successfully created.` });
+      } catch (err) {
+        console.error(err);
+      }
     },
     validateInput() {
       if (!this.name) {
@@ -76,7 +79,7 @@ export default {
     }
   },
   components: {
-    
+
   }
 }
 </script>

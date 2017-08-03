@@ -6,14 +6,17 @@
         <h1 class="text-center">{{apiRes.name}}</h1>
         <mu-row gutter>
           <mu-col width="100" tablet="50" desktop="50">
-            <mu-select-field v-model="seletedOptionId" :labelFocusClass="['label-foucs']" label="I'd like to vote for" fullWidth>
+            <mu-select-field v-model="seletedOptionId" :labelFocusClass="['label-foucs']" label="I'd like to vote for" fullWidth :disabled="!userSignedIn">
               <mu-menu-item :value="false" :title="'Select an option'" disabled />
-              <mu-menu-item v-for="option,index in apiRes.options" :key="index" :value="option._id" :title="option.name" />
+              <mu-menu-item v-for="option in apiRes.options" :key="option._id" :value="option._id" :title="option.name" />
+              <mu-menu-item :value="customOptStr" :title="customOptStr" />
             </mu-select-field>
-            <mu-raised-button label="Submit Vote" primary @click="submitVote" v-if="!userHasVoted" />
+            <mu-text-field hintText="New Option" v-if="showCustomOptionField" v-model="customOptionField" />
+            <mu-raised-button label="Submit Vote" primary @click="submitVote" v-if="!userHasVoted" :disabled="!enableSubmitVoteButton" />
             <mu-raised-button label="Change Vote" primary @click="updateVote" v-if="userHasVoted" :disabled="!enableChangeVoteButton" />
             <br/>
             <Sharing/>
+            <div class="warning text-danger" v-if="!userSignedIn">Please sign in to vote.</div>
           </mu-col>
           <mu-col width="100" tablet="50" desktop="50">
             <DoughnutChart :chartData="chartData" v-if="hasVotes" />
@@ -41,11 +44,13 @@ export default {
   data() {
     return {
       apiRes: {},
-      seletedOptionId: false
+      seletedOptionId: false,
+      customOptionField: null
     }
   },
   computed: {
     ...mapState(['user']),
+    customOptStr() { return 'I\'d like a custom option' },
     poll_id() {
       return this.$route.params.id;
     },
@@ -110,6 +115,18 @@ export default {
     },
     enableChangeVoteButton() {
       return this.seletedOptionId !== this.userVoteOptionId;
+    },
+    enableSubmitVoteButton() {
+      if (!this.userSignedIn) return false;
+      if (this.seletedOptionId === false) return false;
+      // field empty
+      if (this.showCustomOptionField && !this.customOptionField) return false;
+      // duplicate option
+      if (this.showCustomOptionField && _findIndex(this.apiRes.options, { name: this.customOptionField }) !== -1) return false;
+      return true;
+    },
+    showCustomOptionField() {
+      return this.seletedOptionId === this.customOptStr;
     }
   },
   watch: {
@@ -134,8 +151,19 @@ export default {
         this.pino.error(err);
       }
     },
+    async createCustomPollOption() {
+      if (this.showCustomOptionField) {
+        let res = await this.axios.post('/pollOption', {
+          name: this.customOptionField,
+          poll_id: this.poll_id
+        })
+        this.seletedOptionId = res.data._id;
+      }
+    },
     async submitVote() {
       try {
+        await this.createCustomPollOption();
+
         const res = await this.axios.post('/vote', {
           poll_id: this.poll_id,
           poll_option_id: this.seletedOptionId
@@ -147,11 +175,15 @@ export default {
     },
     async updateVote() {
       try {
+        await this.createCustomPollOption();
+
         const res = await this.axios.put('/vote', {
           poll_id: this.poll_id,
           poll_option_id: this.seletedOptionId
         });
         this.loadPoll();
+        let temp = this.seletedOptionId;
+        this.seletedOptionId = temp+'???'; // i have no idea why this work...
       } catch (err) {
         this.pino.error(err);
       }
@@ -182,6 +214,10 @@ export default {
 }
 
 .btn-delete-poll {
+  margin-top: 20px;
+}
+
+.warning {
   margin-top: 20px;
 }
 </style>
