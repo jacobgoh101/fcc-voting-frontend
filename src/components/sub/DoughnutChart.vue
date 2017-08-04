@@ -38,3 +38,9 @@ export default Doughnut.extend({
     }
 })
 </script>
+<style lang=scss scoped>
+canvas{
+    margin: 20px auto;
+    max-width: 300px;
+}
+</style>
