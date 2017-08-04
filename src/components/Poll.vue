@@ -169,6 +169,8 @@ export default {
           poll_option_id: this.seletedOptionId
         });
         this.loadPoll();
+        let temp = this.seletedOptionId;
+        this.seletedOptionId = temp+'???'; // i have no idea why this work...
       } catch (err) {
         this.pino.error(err);
       }
